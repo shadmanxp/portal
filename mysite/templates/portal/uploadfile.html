@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    {% load static %}
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script>
+        var _validFileExtensions = [".pdf"];
+        function ValidateSingleInput(oInput) {
+            if (oInput.type == "file") {
+                var sFileName = oInput.value;
+                 if (sFileName.length > 0) {
+                    var blnValid = false;
+                    for (var j = 0; j < _validFileExtensions.length; j++) {
+                        var sCurExtension = _validFileExtensions[j];
+                        if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                            blnValid = true;
+                            break;
+                        }
+                    }
+                    if (!blnValid) {
+                        alert("Sorry the file you have uploaded is invalid! Please upload a PDF");
+                        oInput.value = "";
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+<!--        var clone_id_count = 1;-->
+<!--        function addmore()-->
+<!--        {-->
+<!--            var field = document.getElementById('field_set'),-->
+<!--            clone = field.cloneNode(true);-->
+<!--            clone.id = "clone_id_count";-->
+<!--            clone_id_count += 1;-->
+<!--            document.getElementById('upload_file_form').appendChild(clone);-->
+
+<!--        }-->
+        $(function() {
+            var $componentfrom = $("#upload_file_form"),
+                $firstfieldCopy = $("#field_set").clone();
+                $idVal = 1;
+            $("#addMore").click(function() {
+                var copy = $firstfieldCopy.clone();
+                var newId = 'row' +$idVal;
+                copy.attr('id', newId);
+                $idVal += 1;
+                copy.children('div').last().append("<div class=\"text-end col-lg-1 align-self-end\"><button class=\"btn btn-danger\" onclick=\"javascript:remove('" + newId + "')\"><span class=\"h6\">Remove</span></button></div>");
+                $componentfrom.append(copy);
+            });
+        });
+        function remove(id){
+            $("#" + id).remove();
+        }
+    </script>
+</head>
+<body>
+{% include "./header.html" %}
+<form method="POST" action="/uploadfile" id="upload_file_form" enctype="multipart/form-data">
+    {%csrf_token%}
+    <div id="field_set">
+    <div class="row col-md p-3 pb-4 mt-4 m-2 border round">
+        <div class="col-lg-2">
+            <label class="form-label h5 text-muted">File Name</label>
+            {{ form.file_name }}
+        </div>
+        <div class="col-lg-2">
+            <label class="form-label h5 text-muted">Category</label>
+            {{ form.category }}
+        </div>
+        <div class="col-lg-2">
+            <label class="form-label h5 text-muted">Issue Date</label>
+            {{ form.issue_date }}
+        </div>
+        <div class="col-lg-2">
+            <label class="form-label h5 text-muted">Expire Date</label>
+            {{ form.expire_date }}
+        </div>
+        <div class="col-lg-3">
+            <label class="form-label h5 text-muted">Attach PDF</label>
+            {{ form.file_upload }}
+        </div>
+    </div>
+    </div>
+    <div>
+        {{file_name_error}}
+        {{confirmation_message}}
+        {{denial_message}}
+    </div>
+</form>
+<div class="text-end pe-2">
+    <button type="submit" form="upload_file_form" value="submit" class="btn btn-warning col-lg-2 mt-2"><i class="bi bi-upload"></i> <span class="h6">UPLOAD</span></button>
+    <button type="button" id="addMore" value="+" class="btn btn-primary col-lg-2 mt-2"><i class="bi bi-plus-circle"></i> <span class="h6">ADD MORE</span></button>
+</div>
+</body>
+</html>
