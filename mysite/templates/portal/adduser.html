@@ -1,0 +1,72 @@
+{% if session_user_id and session_user_pass and session_user_level == 'ADMIN' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add User</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    {% load static %}
+    <link rel="icon" href="{% static 'img/apex_logo2.png' %}">
+    <script  type="text/javascript" src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+</head>
+<body style="font-family: 'Poppins', sans-serif;">
+{% include "./header.html" %}
+<div class="row justify-content-center p-3 m-0">
+    <form method="POST" action="/adduser" id="add_user_form" enctype="multipart/form-data" class="col-lg-7 px-0">
+        {%csrf_token%}
+        <div id="field_set_user">
+        <div class="row col-lg-12 p-3 pb-4 mt-3 border rounded-3 mx-0">
+            <div class="col-lg-4">
+                <label class="form-label h5 text-muted">User ID</label>
+                {{ form.user_id }}
+                <p class="text-danger h6">{{user_id_error}}</p>
+            </div>
+            <div class="col-lg-4">
+                <label class="form-label h5 text-muted">Name</label>
+                {{ form.user_name }}
+            </div>
+            <div class="col-lg-4">
+                <label class="form-label h5 text-muted">Person ID</label>
+                {{ form.person_id }}
+                <p class="text-danger h6">{{person_id_error}}</p>
+            </div>
+            <div class="col-lg-4">
+                <label class="form-label h5 text-muted">Email</label>
+                {{ form.user_email }}
+            </div>
+            <div class="col-lg-4">
+                <label class="form-label h5 text-muted">Password</label>
+                {{ form.user_pass }}
+            </div>
+            <div class="col-lg-4">
+                <label class="form-label h5 text-muted">User Level</label>
+                {{ form.user_level }}
+            </div>
+            <div class="col-lg-4 pt-2">
+                <label class="form-label h5 text-muted">Valid From</label>
+                <input type="date" name="valid_from" class="form-control" id="valid_from" placeholder="Input file name" required="" spellcheck="false" data-ms-editor="true">
+            </div>
+            <div class="col-lg-4 pt-2">
+                <label class="form-label h5 text-muted">Valid To</label>
+                <input type="date" name="valid_to" class="form-control" id="valid_to" placeholder="Input file name" required="" spellcheck="false" data-ms-editor="true">
+            </div>
+            <div class="col-lg-4 pt-2">
+                <label class="form-label h5 text-muted">Active Status</label>
+                {{ form.active_status }}
+            </div>
+        </div>
+        </div>
+        <div class="col-lg-12">
+            <p class="form-label h5 mb-1 text-success text-center">{{confirmation_message}}</p>
+            <p class="form-label h5 mb-1 text-danger text-center">{{denial_message}}</p>
+        </div>
+        <div class="text-end mb-5">
+            <button type="submit" form="add_user_form" value="submit" class="btn btn-warning col-lg-2 mt-2"><i class="bi bi-upload"></i> <span class="h6">ADD USER</span></button>
+        </div>
+    </form>
+</div>
+{% include "./footer.html" %}
+</body>
+</html>
+{% else %}
+    <meta http-equiv="REFRESH" content="0; url=/">
+{% endif %}

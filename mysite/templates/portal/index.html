@@ -1,16 +1,173 @@
+{% if session_user_id == None %}
+    <meta http-equiv="REFRESH" content="0; url=/login">
+{% elif session_user_id and session_user_pass and session_user_level == 'ADMIN' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Portal</title>
+    <title>ODMS</title>
     {% load static %}
+    <style>
+        .index_img{
+          transition: all 0.3s ease-in-out;
+          opacity: 0.0;
+        }
+        .index_img:hover {
+          background-color: #737373;
+          color: #FFFFFF;
+          opacity:0.5;
+        }
+        .index_img:hover p{
+          color: #FFFFFF;
+        }
+        .home-color{
+            background-color: rgba(228,34,42,.1);
+        }
+    </style>
+    <link rel="icon" href="{% static 'img/apex_logo2.png' %}">
 </head>
-<body>
-<!--{% if session_user_email == None %}-->
-<!--    <script>window.location="/login"</script>-->
-<!--{% endif %}-->
+<body style="font-family: 'Poppins', sans-serif;">
 {% include "./header.html" %}
-    <p>Index</p>
+    <div class="container-fluid py-0 px-3">
+        <div class="col-12-lg text-center m-0 pt-4 pb-3">
+            <h1 style="font-weight:bold;font-size:50px;text-shadow:2px 2px 12px #Ececec;color:#ed4f5e; height:120px;" class="row">
+                <div class="align-self-center">APEX FOOTWEAR LTD</div>
+            </h1>
+        </div>
+        <div class="row row-cols-1 row-cols-lg-4 g-2 g-lg-4 m-0 p-0 shadow rounded-3 mb-5">
+            <a href="/uploadfile" style="position: relative" class="col m-0 p-0">
+                <img class="px-3 rounded-3 rounded-start" style="height:100%; width:100%; object-fit: cover; background-color: #FFFFFF;" src="{% static 'img/upload_file2.jpg' %}" alt="UPLOAD FILE" />
+                <div class="row text-center m-0 p-0 rounded-3 index_img" style="position: absolute; top:10%; left:10%; z-index:1; bottom:0; right:0; height:80%; width:80%;">
+                    <div class="align-self-center" >
+                        <p style="user-select:none;" class="h3">UPLOAD FILE</p>
+                    </div>
+                </div>
+            </a>
+            <a href="/viewfile" style="position: relative" class="col m-0 p-0">
+                <img class="px-3" style="height:100%; width:100%; object-fit: cover; background-color: #FFFFFF;" src="{% static 'img/view_file2.jpg' %}" alt="VIEW FILE" />
+                <div class="row text-center m-0 p-0 rounded-3 index_img" style="position: absolute; top:10%; left:10%; z-index:1; bottom:0; right:0; height:80%; width:80%;">
+                    <div class="align-self-center" >
+                        <p style="user-select:none;" class="h3">VIEW FILE</p>
+                    </div>
+                </div>
+            </a>
+            <a href="/adduser" style="position: relative" class="col m-0 p-0">
+                <img class="px-3" style="height:100%; width:100%; object-fit: cover; background-color: #FFFFFF;" src="{% static 'img/add_user.jpg' %}" alt="ADD USER" />
+                <div class="row text-center m-0 p-0 rounded-3 index_img" style="position: absolute; top:10%; left:10%; z-index:1; bottom:0; right:0; height:80%; width:80%;">
+                    <div class="align-self-center" >
+                        <p style="user-select:none;" class="h3">ADD USER</p>
+                    </div>
+                </div>
+            </a>
+            <a href="/viewuser" style="position: relative" class="col m-0 p-0">
+                <img class="px-3 rounded-3 rounded-end" style="height:100%; width:100%; object-fit: cover; background-color: #FFFFFF;" src="{% static 'img/view_user.jpg' %}" alt="VIEW" />
+                <div class=" row text-center m-0 p-0 rounded-3 index_img" style="position: absolute; top:10%; left:10%; z-index:1; bottom:0; right:0; height:80%; width:80%;">
+                    <div class="align-self-center" >
+                        <p style="user-select:none;" class="h3">VIEW USER</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+{% include "./footer.html" %}
 </body>
 </html>
+{% else %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ODMS</title>
+    {% load static %}
+    <style>
+        body a:link {
+          text-decoration: none;
+        }
+
+        body a:visited {
+          text-decoration: none;
+        }
+        .index_img{
+          transition: all 0.3s ease-in-out;
+          opacity: 0.0;
+        }
+        .index_img:hover {
+          background-color: #737373;
+          color: #FFFFFF;
+          opacity:0.4;
+        }
+        .index_img:hover p{
+          color: #FFFFFF;
+        }
+        .home-color{
+            background-color: rgba(228,34,42,.1);
+        }
+    </style>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');</style>
+    <link rel="icon" href="{% static 'img/apex_logo2.png' %}">
+</head>
+<body style="font-family: 'Poppins', sans-serif;">
+        <div class="row text-center m-0 p-0" style="position: absolute; top:0%; left:0%; z-index:-1; bottom:0; right:0; height:36%; width:100%; background-color:#DC2D2D;"></div>
+        <div class="row text-center m-0 p-0" style="position: absolute; top:0%; left:0%; z-index:-2; bottom:0; right:0; height:100%; width:100%; background-color:#687b39;"></div>
+{% if session_user_id == None %}
+    <meta http-equiv="REFRESH" content="0; url=/login">
+{% endif %}
+{% include "./header.html" %}
+    <div class="container-fluid py-0 px-0">
+        <div class="col-12-lg text-center m-0 pt-4 pb-3">
+            <div class="align-self-center">
+                <h1 style="font-family: 'Sriracha', cursive;font-weight:bold;font-size:5.2vh;text-shadow:2px 2px 12px #Fb3636;color:#FFFFFF;">APEX FOOTWEAR LTD</h1>
+            </div>
+        </div>
+        <p class="text-center h3" style="color:#FFFFFF;font-family: 'Sriracha', cursive;">BROWSE BY CATEGORY</p>
+        <div class="row justify-content-center m-0">
+            <div class="row row-cols-1 row-cols-lg-3 g-2 g-lg-4 m-0 p-0 mb-5 col-lg-6">
+                {% for category in categories %}
+                <div class="d-flex justify-content-between text-center" style="height: 300px; position:relative;">
+                <a href="/viewcategory/{{category}}" style="position: relative; background-color:#FFFFFF; border-radius: 25px;" class="col p-3 shadow text-muted">
+                    <div class="row m-0 p-0 header-color" style="position: absolute; top:0%; left:0%; z-index:1; bottom:0; right:0; height:50%; width:100%; color:#ffffff; border-radius: 25px;">
+                        <div class="align-self-center">
+                            <p style="user-select:none;" class="h3">{{category|upper}}</p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center px-3 mx-0" style="position: absolute; top:50%; left:0%; z-index:1; bottom:0; right:0; height:15%; width:100%;">
+                        <div class="align-self-center">
+                            {% for each in category_file_count %}
+                                {% if category == each.category %}
+                                    TOTAL FILES: {{ each.category_count }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row text-center m-0 p-0 rounded-3 index_img" style="position: absolute; top:0%; left:0%; z-index:1; bottom:0; right:0; height:100%; width:100%;">
+                    </div>
+                </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% include "./footer.html" %}
+
+
+<script>
+        function getRandomColor() {
+          var letters = '0123456789ABCDEF';
+          var color = '#';
+          for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 10)];
+          }
+          if (color=='#FFFFFF'){
+            getRandomColor()
+          }
+          return color;
+        }
+        $(".header-color").each(function(){
+        $(this).css("background-color", getRandomColor());
+            })
+    </script>
+</body>
+</html>
+{% endif %}

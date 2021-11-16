@@ -4,38 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/mycss.css' %}" />
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/all.css' %}" />
     <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{% static 'img/apex_logo2.png' %}">
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow bg-white">
-    <div class="container-fluid">
-        <a class="nav-link h4 text-muted me-0" href="/">PORTAL</a>
+    <div class="container-fluid pe-5 me-3">
+        <a class="nav-link h4 text-muted me-0 p-0" href="/">
+            <img class="img-responsive" src="{% static 'img/apex_logo2.png' %}" alt="logo" style="width:15%">
+            <span class="align-middle" style="font-family: 'Poppins', sans-serif;">Online Document Management System</span>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse row text-end" id="navbarText">
             <ul class="navbar-nav d-flex justify-content-end col" >
+                {% if session_user_level == 'ADMIN' %}
+                {% if request.path == '/uploadfile' %}
+                <li class="nav-item">
+                    <a class="nav-link h5 my-0 mx-2 active" aria-current="page" href="/uploadfile" style="font-family: 'Work Sans', sans-serif; font-weight:bold;">
+                        <i class="bi bi-file-earmark-arrow-up"></i> <span style="font-family: 'Poppins', sans-serif;">Upload File</span>
+                    </a>
+                </li>
+                {% else %}
                 <li class="nav-item">
                     <a class="nav-link h5 my-0 mx-2" aria-current="page" href="/uploadfile" style="font-family: 'Work Sans', sans-serif; font-weight:bold;">
                         <i class="bi bi-file-earmark-arrow-up"></i> Upload File
                     </a>
                 </li>
+                {% endif %}
+                {% endif %}
+                {% if request.path == '/viewfile' %}
                 <li class="nav-item">
-                    <a class="nav-link h5 my-0 mx-2" aria-current="page" href="#" style="font-family: 'Work Sans', sans-serif; font-weight:bold;">
-                        <i class="bi bi-eye"></i> View file
+                    <a class="nav-link h5 my-0 mx-2 active" aria-current="page" href="/viewfile" style="font-family: 'Work Sans', sans-serif; font-weight:bold;">
+                        <i class="bi bi-eye"></i> <span style="font-family: 'Poppins', sans-serif;">View file</span>
                     </a>
                 </li>
-                {% if session_full_name %}
-                <li class="nav-item dropdown py-2 mx-1">
+                {% else %}
+                 <li class="nav-item">
+                    <a class="nav-link h5 my-0 mx-2" aria-current="page" href="/viewfile" style="font-family: 'Work Sans', sans-serif; font-weight:bold;">
+                       <i class="bi bi-files"></i> View file
+                    </a>
+                </li>
+                {% endif %}
+                {% if session_user_level == 'ADMIN' %}
+                {% if request.path == '/adduser' %}
+                <li class="nav-item">
+                    <a class="nav-link h5 my-0 mx-2 active" aria-current="page" href="/adduser" style="font-family: 'Work Sans', sans-serif; font-weight:bold;">
+                        <i class="bi bi-person-plus"></i> <span style="font-family: 'Poppins', sans-serif;">Add user</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link h5 my-0 mx-2" aria-current="page" href="/adduser" style="font-family: 'Work Sans', sans-serif; font-weight:bold;">
+                        <i class="bi bi-person-plus"></i> Add user
+                    </a>
+                </li>
+                {% endif %}
+                {% if request.path == '/viewuser' %}
+                <li class="nav-item">
+                    <a class="nav-link h5 my-0 mx-2 active" aria-current="page" href="/viewuser" style="font-family: 'Work Sans', sans-serif; font-weight:bold;">
+                        <i class="bi bi-eye"></i> <span style="font-family: 'Poppins', sans-serif;">View user</span>
+                    </a>
+                </li>
+                {% else %}
+                 <li class="nav-item">
+                    <a class="nav-link h5 my-0 mx-2" aria-current="page" href="/viewuser" style="font-family: 'Work Sans', sans-serif; font-weight:bold;">
+                        <i class="bi bi-person-lines-fill"></i> View user
+                    </a>
+                </li>
+                {% endif %}
+                {% endif %}
+                {% if session_user_name %}
+                <li class="nav-item dropdown col-auto align-self-center pe-3" style="font-family: 'Poppins', sans-serif;">
                     <a class="nav-link dropdown-toggle h6 my-0" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="success"> {{session_full_name}} </span><i class="bi bi-person-circle"></i>
+                        <span class="success"> {{session_user_name|title}} </span><i class="bi bi-person-circle"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
                         <li><a class="dropdown-item" href="/changepassword">Change Password</a></li>
-                        <li><a class="dropdown-item" href="/signout">Signout</a></li>
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
                     </ul>
                 </li>
                 {% endif %}

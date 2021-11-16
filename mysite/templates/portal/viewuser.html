@@ -1,0 +1,56 @@
+{% if session_user_id and session_user_pass and session_user_level == 'ADMIN' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Viewfile</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    {% load static %}
+    <link rel="icon" href="{% static 'img/apex_logo2.png' %}">
+    <script  type="text/javascript" src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+</head>
+<body style="font-family: 'Poppins', sans-serif;">
+{% include "./header.html" %}
+<div class="table-responsive-lg">
+    <table class="table table-striped mt-2 text-center align-middle">
+        <thead>
+        <tr>
+            <th scope="col"><label class="form-label h4 text-muted">#</label></th>
+            <th scope="col"><label class="form-label h4 text-muted">User ID</label></th>
+            <th scope="col"><label class="form-label h4 text-muted">Name</label></th>
+            <th scope="col"><label class="form-label h4 text-muted">Person ID</label></th>
+            <th scope="col"><label class="form-label h4 text-muted">Email</label></th>
+            <th scope="col"><label class="form-label h4 text-muted">Status</label></th>
+            <th scope="col"><label class="form-label h4 text-muted">Valid From</label></th>
+            <th scope="col"><label class="form-label h4 text-muted">Valid To</label></th>
+            <th scope="col"><label class="form-label h4 text-muted">Last Updated</label></th>
+            <th scope="col"><label class="form-label h4 text-muted">User Level</label></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in user_details %}
+        <tr>
+            <th scope="row" class="form-label h6 text-muted">{{user.row_no}}</th>
+            <td class="form-label h6 text-muted">{{user.user_id}}</td>
+            <td class="form-label h6 text-muted">{{user.name}}</td>
+            <td class="form-label h6 text-muted">{{user.person_id}}</td>
+            <td class="form-label h6 text-muted">{{user.email}}</td>
+            <td class="form-label h6 text-muted">{% if user.status == 1 %}Active{%else%}Inactive{%endif%}</td>
+            <td class="form-label h6 text-muted">{{user.valid_from}}</td>
+            <td class="form-label h6 text-muted">{{user.valid_to}}</td>
+            <td class="form-label h6 text-muted">{{user.last_update_date}}</td>
+            <td class="form-label h6 text-muted">{{user.user_level}}</td>
+            <td class="form-label h6 text-muted">
+                <a href="edituser/{{user.user_id}}" class="btn btn-warning form-label h6" role="button">Edit User</a>
+<!--              <a target="_blank" onclick="window.open('downloadpdf/{{file.file_upload_name}}')" class="btn btn-secondary form-label h6" role="button">Download</a>-->
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% include "./footer.html" %}
+</body>
+</html>
+{% else %}
+    <meta http-equiv="REFRESH" content="0; url=/">
+{% endif %}

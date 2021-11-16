@@ -1,3 +1,4 @@
+{% if not session_user_name and not session_user_pass %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,41 +9,50 @@
     <link rel="stylesheet" href="{% static 'css/mycss.css' %}" />
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}" />
+    <link rel="icon" href="{% static 'img/apex_logo2.png' %}">
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </head>
 <body style="background-color: #f7f9fa">
-<div class="container-fluid row align-items-center pt-0" style="height: 86vh;">
+<div class="container-fluid row align-items-center pt-0 mx-0" style="height: 86vh;">
     <div class="col d-flex justify-content-center p-0">
-        <form method="POST" action="/login" class="row col-md-6 g-3 p-3 pb-4 shadow-lg rounded-2" style="background-color: white" enctype="multipart/form-data">
+        <form method="POST" action="/login" class="row col-md-3 g-3 p-3 pb-4 shadow-lg rounded-2" style="background-color: white" enctype="multipart/form-data">
             {%csrf_token%}
-            <div class="col-lg-12 text-center mt-2">
-                <label class="form-label h4 mb-1 text-muted">PORTAL LOGIN</label>
+            <div class="nav-link h4 text-muted me-0 p-0 " href="/">
+                <div class="row justify-content-center"><img class="img-responsive" src="{% static 'img/apex_logo2.png' %}" alt="logo" style="width:25%; user-select:none;"></div>
+                <p class="row justify-content-center" style="font-family: 'Poppins', sans-serif; font-weight:600;">ODMS LOGIN</p>
             </div>
-            <div class="col-lg-12">
-                <label class="form-label h5 text-muted">Email</label>
-                {{form.user_email}}
-                <span class="text-danger h6 ">{{email_error}}</span>
+<!--            <div class="col-lg-12 text-center mt-2">-->
+<!--                <label class="form-label h4 mb-1 text-muted">ODSM LOGIN</label>-->
+<!--            </div>-->
+            <div class="col-lg-12 mt-2">
+                <label class="form-label h5 text-muted">User ID</label>
+                {{form.user_id}}
+                <p class="text-danger text-center h6 ">{{user_id_error}}</p>
             </div>
-            <div class="col-lg-12">
+            <div class="col-lg-12 mt-2">
                 <label class="form-label h5 text-muted">Password</label>
                 {{form.user_pass}}
-                <span class="text-danger h6 ">{{pass_error}}</span>
+                <p class="text-danger text-center h6 ">{{pass_error}}</p>
             </div>
-            <div class="col-lg-12 align-items-end">
+            <div class="col-lg-12 text-center mt-1">
+                {{form.remember_me}}
+                <label class="form-check-label" for="rememberMe" style="font-family: 'Poppins', sans-serif;">Remember me</label>
+            </div>
+            <div class="col-lg-12 text-center mt-1">
+                <p class="form-label h5 mb-1 text-success text-center">{{confirmation_message}}</p>
+                <p class="form-label h5 mb-1 text-danger text-center">{{denial_message}}</p>
+            </div>
+            <div class="col-lg-12 align-items-end mt-2">
                <div class="col d-flex justify-content-end">
-                   <button type="submit" class="btn btn-primary" style="width: 120px; height: 40px">Login</button>
+                   <button type="submit" class="btn btn-primary" style="font-family: 'Poppins', sans-serif; width: 120px; height: 40px">Login</button>
                </div>
-            </div>
-            <div class="col-lg-12 text-center mt-2">
-                {% if denial_message %}
-                <p class="form-label h5 mb-1 text-danger">{{denial_message}}</p>
-                {% endif %}
-                {% if confirmation_message %}
-                <p class="form-label h5 mb-1 text-success">{{confirmation_message}}</p>
-                {% endif %}
             </div>
         </form>
     </div>
 </div>
+{% include "./footer.html" %}
 </body>
 </html>
+{% else %}
+    <meta http-equiv="REFRESH" content="0; url=/">
+{% endif %}

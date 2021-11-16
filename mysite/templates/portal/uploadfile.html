@@ -1,13 +1,14 @@
+{% if session_user_id and session_user_pass and session_user_level == 'ADMIN' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>File Upload</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     {% load static %}
-    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <link rel="icon" href="{% static 'img/apex_logo2.png' %}">
+    <script  type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     <script>
-        var _validFileExtensions = [".pdf"];
+        var _validFileExtensions = [".pdf",".png",".jpg",".jpeg",".docx",".doc"];
         function ValidateSingleInput(oInput) {
             if (oInput.type == "file") {
                 var sFileName = oInput.value;
@@ -21,7 +22,7 @@
                         }
                     }
                     if (!blnValid) {
-                        alert("Sorry the file you have uploaded is invalid! Please upload a PDF");
+                        alert("Sorry the file you have uploaded is invalid! Please upload a PDF/PNG/JPG/DOC");
                         oInput.value = "";
                         return false;
                     }
@@ -29,16 +30,6 @@
             }
             return true;
         }
-<!--        var clone_id_count = 1;-->
-<!--        function addmore()-->
-<!--        {-->
-<!--            var field = document.getElementById('field_set'),-->
-<!--            clone = field.cloneNode(true);-->
-<!--            clone.id = "clone_id_count";-->
-<!--            clone_id_count += 1;-->
-<!--            document.getElementById('upload_file_form').appendChild(clone);-->
-
-<!--        }-->
         $(function() {
             var $componentfrom = $("#upload_file_form"),
                 $firstfieldCopy = $("#field_set").clone();
@@ -48,7 +39,7 @@
                 var newId = 'row' +$idVal;
                 copy.attr('id', newId);
                 $idVal += 1;
-                copy.children('div').last().append("<div class=\"text-end col-lg-1 align-self-end\"><button class=\"btn btn-danger\" onclick=\"javascript:remove('" + newId + "')\"><span class=\"h6\">Remove</span></button></div>");
+                copy.children('div').last().append("<div class=\"text-end col-lg-1 pt-3 align-self-end\"><button class=\"btn btn-danger\" onclick=\"javascript:remove('" + newId + "')\"><span class=\"h6\">Remove</span></button></div>");
                 $componentfrom.append(copy);
             });
         });
@@ -57,43 +48,50 @@
         }
     </script>
 </head>
-<body>
+<body style="font-family: 'Poppins', sans-serif;">
 {% include "./header.html" %}
-<form method="POST" action="/uploadfile" id="upload_file_form" enctype="multipart/form-data">
-    {%csrf_token%}
-    <div id="field_set">
-    <div class="row col-md p-3 pb-4 mt-4 m-2 border round">
-        <div class="col-lg-2">
-            <label class="form-label h5 text-muted">File Name</label>
-            {{ form.file_name }}
+<div class="row justify-content-center p-3 m-0">
+    <form method="POST" action="/uploadfile" id="upload_file_form" enctype="multipart/form-data" class="col-lg-10 px-0">
+        {%csrf_token%}
+        <div id="field_set">
+        <div class="row col-lg-12 p-3 pb-4 mt-3 border rounded-3 mx-0">
+            <div class="col-lg-2">
+                <label class="form-label h5 text-muted">File Name</label>
+                {{ form.file_name }}
+            </div>
+            <div class="col-lg-2" style="width: 320px">
+                <label class="form-label h5 text-muted">Category</label>
+                {{ form.category }}
+            </div>
+            <div class="col-lg-2">
+                <label class="form-label h5 text-muted">Issue Date</label>
+                <input type="date" name="issue_date" class="form-control" id="issue_date" placeholder="Input file name" required="" spellcheck="false" data-ms-editor="true">
+            </div>
+            <div class="col-lg-2">
+                <label class="form-label h5 text-muted">Expire Date</label>
+                <input type="date" name="expire_date" class="form-control" id="expire_date" placeholder="Input file name" required="" spellcheck="false" data-ms-editor="true">
+            </div>
+            <div class="col-lg-2" style="width: 320px">
+                <label class="form-label h5 text-muted">Attach PDF</label>
+                {{ form.file_upload }}
+            </div>
         </div>
-        <div class="col-lg-2">
-            <label class="form-label h5 text-muted">Category</label>
-            {{ form.category }}
         </div>
-        <div class="col-lg-2">
-            <label class="form-label h5 text-muted">Issue Date</label>
-            {{ form.issue_date }}
+        <div class="col-lg-12">
+            <p class="form-label h5 mb-1 text-success text-center">{{confirmation_message}}</p>
+            <p class="form-label h5 mb-1 text-danger text-center">{{denial_message}}</p>
         </div>
-        <div class="col-lg-2">
-            <label class="form-label h5 text-muted">Expire Date</label>
-            {{ form.expire_date }}
-        </div>
-        <div class="col-lg-3">
-            <label class="form-label h5 text-muted">Attach PDF</label>
-            {{ form.file_upload }}
+    </form>
+    <div class="col-lg-10    m-1 px-0 mb-5">
+        <div class="text-end col">
+            <button type="submit" form="upload_file_form" value="submit" class="btn btn-warning col-lg-2 mt-2"><i class="bi bi-upload"></i> <span class="h6">UPLOAD</span></button>
+            <button type="button" id="addMore" value="+" class="btn btn-primary col-lg-2 mt-2 addMore"><i class="bi bi-plus-circle"></i> <span class="h6">ADD MORE</span></button>
         </div>
     </div>
-    </div>
-    <div>
-        {{file_name_error}}
-        {{confirmation_message}}
-        {{denial_message}}
-    </div>
-</form>
-<div class="text-end pe-2">
-    <button type="submit" form="upload_file_form" value="submit" class="btn btn-warning col-lg-2 mt-2"><i class="bi bi-upload"></i> <span class="h6">UPLOAD</span></button>
-    <button type="button" id="addMore" value="+" class="btn btn-primary col-lg-2 mt-2"><i class="bi bi-plus-circle"></i> <span class="h6">ADD MORE</span></button>
 </div>
+{% include "./footer.html" %}
 </body>
 </html>
+{% else %}
+    <meta http-equiv="REFRESH" content="0; url=/">
+{% endif %}

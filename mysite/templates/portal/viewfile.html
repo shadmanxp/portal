@@ -1,0 +1,49 @@
+{% if session_user_id and session_user_pass %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Viewfile</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    {% load static %}
+    <link rel="icon" href="{% static 'img/apex_logo2.png' %}">
+    <script  type="text/javascript" src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+</head>
+<body style="font-family: 'Poppins', sans-serif;">
+{% include "./header.html" %}
+<div class="table-responsive-lg">
+    <table class="table table-striped mt-2 text-center align-middle mb-5">
+      <thead>
+        <tr>
+          <th scope="col"><label class="form-label h4 text-muted">#</label></th>
+          <th scope="col"><label class="form-label h4 text-muted">File Name</label></th>
+          <th scope="col"><label class="form-label h4 text-muted">Category</label></th>
+          <th scope="col"><label class="form-label h4 text-muted">File</label></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for file in file_details %}
+      <tr>
+          <th scope="row" class="form-label h6 text-muted">{{file.row_no}}</th>
+          <td class="form-label h6 text-muted">{{file.file_name}}</td>
+          <td class="form-label h6 text-muted">{{file.category}}</td>
+          <td class="form-label h6 text-muted">
+              {% if ".png" in file.file_upload_name or ".jpg" in file.file_upload_name %}
+              <a target="_blank" onclick="window.open('openimage/{{file.file_upload_name}}')" class="btn btn-primary form-label h6" role="button">View Image</a>
+              {% elif ".doc" in file.file_upload_name %}
+              <a target="_blank" onclick="window.open('opendoc/{{file.file_upload_name}}')" class="btn btn-primary form-label h6" role="button">View Doc</a>
+              {% else %}
+              <a target="_blank" onclick="window.open('openpdf/{{file.file_upload_name}}')" class="btn btn-primary form-label h6" role="button">View PDF</a>
+              {% endif %}
+              <a target="_blank" onclick="window.open('downloadfile/{{file.file_upload_name}}')" class="btn btn-secondary form-label h6" role="button">Download</a>
+          </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% include "./footer.html" %}
+</body>
+</html>
+{% else %}
+    <meta http-equiv="REFRESH" content="0; url=/">
+{% endif %}

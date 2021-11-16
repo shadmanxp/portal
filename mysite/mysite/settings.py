@@ -2,6 +2,8 @@ import os.path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from cryptography.fernet import Fernet
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -14,8 +16,10 @@ SECRET_KEY = 'django-insecure-@qvtbec$b_ap&$%$%kkdwfrvg64x^0f9x-hoc8!&5ri-@zaiwh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+# SECRET_KEY = os.environ['SECRET_KEY']
+# print(SECRET_KEY)
 
 # Application definition
 
@@ -27,7 +31,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'portal.apps.PortalConfig',
+    "bootstrap4", #pip install django-bootstrap4
+    'bootstrap_datepicker_plus', #pip install django-bootstrap-datepicker-plus
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,9 +72,15 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'apex',
+        'USER': 'sa',
+        'PASSWORD': '123456',
+        'HOST': 'SHADMAN',
+        'PORT': '',
+        'OPTIONS': {'driver': 'SQL Server Native Client 11.0',
+        },
+    },
 }
 
 
@@ -119,3 +132,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+ENCRYPT_KEY = b'c2IbJyvfDkWvsE_8MIYnL1gXFS-IJL5DqgTtrbhMgy8='
